@@ -1,0 +1,346 @@
+[
+    {
+        "day": "1일차",
+        "schedule": [
+            {
+                "from": "서울경부버스터미널",
+                "to": "영덕터미널",
+                "startLat": 37.505537,
+                "startLon": 127.005315,
+                "lat": 36.41724,
+                "lon": 129.37568,
+                "startTime": "14:40:00",
+                "endTime": "19:00:00",
+                "isBus": true
+            },
+            {
+                "from": "영덕 터미널",
+                "to": "해맞이공원",
+                "lat": 36.428434,
+                "lon": 129.434631,
+                "distance": 7.5,
+                "cumulative": 7.5,
+                "startTime": "19:00:00",
+                "endTime": "19:50:00",
+                "note": "업힐 어마무시함"
+            },
+            {
+                "from": "해맞이공원",
+                "to": "한울펜션형민박",
+                "lat": 36.483177,
+                "lon": 129.433663,
+                "distance": 5.0,
+                "cumulative": 12.5,
+                "startTime": "20:10:00",
+                "endTime": "20:30:00",
+                "note": "해맞이공원 근처 아무것도 없음"
+            }
+        ]
+    },
+    {
+        "day": "2일차",
+        "schedule": [
+            {
+                "from": "한울펜션형민박",
+                "to": "고래불해변",
+                "lat": 36.600335,
+                "lon": 129.411490,
+                "distance": 23.0,
+                "cumulative": 23.0,
+                "startTime": "09:00:00",
+                "endTime": "10:32:00",
+                "note": ""
+            },
+            {
+                "from": "고래불해변",
+                "to": "월송정",
+                "lat": 36.743880,
+                "lon": 129.468706,
+                "distance": 21.0,
+                "cumulative": 44.0,
+                "startTime": "10:52:00",
+                "endTime": "12:16:00",
+                "note": ""
+            },
+            {
+                "from": "월송정",
+                "to": "망양휴게소",
+                "lat": 36.873183,
+                "lon": 129.421411,
+                "distance": 19.0,
+                "cumulative": 63.0,
+                "startTime": "13:36:00",
+                "endTime": "14:52:00",
+                "note": "점심식사 포함"
+            },
+            {
+                "from": "망양휴게소",
+                "to": "울진은어다리",
+                "lat": 36.977590,
+                "lon": 129.406936,
+                "distance": 15.0,
+                "cumulative": 78.0,
+                "startTime": "15:12:00",
+                "endTime": "16:12:00",
+                "note": ""
+            },
+            {
+                "from": "울진은어다리",
+                "to": "나곡해수욕장",
+                "lat": 37.129378,
+                "lon": 129.371127,
+                "distance": 16.0,
+                "cumulative": 94.0,
+                "startTime": "16:32:00",
+                "endTime": "17:36:00",
+                "note": ""
+            },
+            {
+                "from": "나곡해수욕장",
+                "to": "숙소(임시)",
+                "lat": 37.154159,
+                "lon": 129.359186,
+                "distance": 1.0,
+                "cumulative": 85.0,
+                "startTime": "18:00:00",
+                "endTime": "18:30:00",
+                "note": "나곡해수욕장 이후 1km (GPX 기준)"
+            }
+        ]
+    },
+    {
+        "day": "3일차",
+        "schedule": [
+            {
+                "from": "숙소(임시)",
+                "to": "임원",
+                "lat": 37.222837,
+                "lon": 129.339157,
+                "distance": 8.0,
+                "cumulative": 8.0,
+                "startTime": "09:00:00",
+                "endTime": "09:30:00",
+                "note": ""
+            },
+            {
+                "from": "임원",
+                "to": "한재공원",
+                "lat": 37.419398,
+                "lon": 129.196098,
+                "distance": 31.0,
+                "cumulative": 42.0,
+                "startTime": "10:04:00",
+                "endTime": "12:08:00",
+                "note": "업힐 빡셈"
+            },
+            {
+                "from": "한재공원",
+                "to": "맹방해변",
+                "lat": 37.390700,
+                "lon": 129.235045,
+                "distance": 6.0,
+                "cumulative": 48.0,
+                "startTime": "13:28:00",
+                "endTime": "13:52:00",
+                "note": "점심식사 포함"
+            },
+            {
+                "from": "맹방해변",
+                "to": "추암촛대바위",
+                "lat": 37.479536,
+                "lon": 129.160146,
+                "distance": 13.0,
+                "cumulative": 61.0,
+                "startTime": "14:12:00",
+                "endTime": "15:04:00",
+                "note": ""
+            },
+            {
+                "from": "추암촛대바위",
+                "to": "망상해변",
+                "lat": 37.596803,
+                "lon": 129.091336,
+                "distance": 15.0,
+                "cumulative": 76.0,
+                "startTime": "15:24:00",
+                "endTime": "16:24:00",
+                "note": ""
+            },
+            {
+                "from": "망상해변",
+                "to": "정동진",
+                "lat": 37.690715,
+                "lon": 129.035015,
+                "distance": 15.0,
+                "cumulative": 91.0,
+                "startTime": "16:54:00",
+                "endTime": "17:54:00",
+                "note": ""
+            },
+            {
+                "from": "정동진",
+                "to": "경포해변",
+                "lat": 37.808184,
+                "lon": 128.908862,
+                "distance": 25.0,
+                "cumulative": 116.0,
+                "startTime": "18:14:00",
+                "endTime": "19:54:00",
+                "note": "업힐 주의"
+            },
+            {
+                "from": "경포해변",
+                "to": "숙소(임시)",
+                "lat": 37.824546,
+                "lon": 128.883139,
+                "distance": 3.0,
+                "cumulative": 119.0,
+                "startTime": "20:00:00",
+                "endTime": "20:30:00",
+                "note": "경포해변 이후 3km (GPX 기준)"
+            }
+        ]
+    },
+    {
+        "day": "4일차",
+        "schedule": [
+            {
+                "from": "숙소(임시)",
+                "to": "양양지경공원",
+                "lat": 37.924062,
+                "lon": 128.811114,
+                "distance": 25.0,
+                "cumulative": 25.0,
+                "startTime": "09:00:00",
+                "endTime": "10:40:00",
+                "note": ""
+            },
+            {
+                "from": "양양지경공원",
+                "to": "동호해변",
+                "lat": 38.058088,
+                "lon": 128.686959,
+                "distance": 18.0,
+                "cumulative": 43.0,
+                "startTime": "11:00:00",
+                "endTime": "12:12:00",
+                "note": ""
+            },
+            {
+                "from": "동호해변",
+                "to": "영금정(속초)",
+                "lat": 38.212135,
+                "lon": 128.602089,
+                "distance": 19.0,
+                "cumulative": 62.0,
+                "startTime": "13:32:00",
+                "endTime": "14:48:00",
+                "note": "점심식사 포함"
+            },
+            {
+                "from": "영금정(속초)",
+                "to": "봉포해변",
+                "lat": 38.246621,
+                "lon": 128.571345,
+                "distance": 8.0,
+                "cumulative": 70.0,
+                "startTime": "15:08:00",
+                "endTime": "15:40:00",
+                "note": ""
+            },
+            {
+                "from": "봉포해변",
+                "to": "아야진해변",
+                "lat": 38.278052,
+                "lon": 128.553954,
+                "distance": 5.0,
+                "cumulative": 75.0,
+                "startTime": "16:00:00",
+                "endTime": "16:20:00",
+                "note": ""
+            },
+            {
+                "from": "아야진해변",
+                "to": "숙소(임시)",
+                "lat": 38.292090,
+                "lon": 128.546768,
+                "distance": 2.0,
+                "cumulative": 77.0,
+                "startTime": "16:30:00",
+                "endTime": "17:00:00",
+                "note": "아야진해변 이후 2km (GPX 기준)"
+            }
+        ]
+    },
+    {
+        "day": "5일차",
+        "schedule": [
+            {
+                "from": "숙소(임시)",
+                "to": "천학정",
+                "lat": 38.288971,
+                "lon": 128.547870,
+                "distance": 5.0,
+                "cumulative": 5.0,
+                "startTime": "08:00:00",
+                "endTime": "08:20:00",
+                "note": ""
+            },
+            {
+                "from": "천학정",
+                "to": "봉수대해변",
+                "lat": 38.326230,
+                "lon": 128.527650,
+                "distance": 8.0,
+                "cumulative": 13.0,
+                "startTime": "08:40:00",
+                "endTime": "09:12:00",
+                "note": ""
+            },
+            {
+                "from": "봉수대해변",
+                "to": "송지호해변",
+                "lat": 38.333186,
+                "lon": 128.528402,
+                "distance": 3.0,
+                "cumulative": 16.0,
+                "startTime": "09:32:00",
+                "endTime": "09:44:00",
+                "note": ""
+            },
+            {
+                "from": "송지호해변",
+                "to": "거진항",
+                "lat": 38.449692,
+                "lon": 128.464083,
+                "distance": 13.0,
+                "cumulative": 29.0,
+                "startTime": "10:04:00",
+                "endTime": "10:56:00",
+                "note": ""
+            },
+            {
+                "from": "거진항",
+                "to": "대진등대",
+                "lat": 38.503812,
+                "lon": 128.428590,
+                "distance": 10.0,
+                "cumulative": 39.0,
+                "startTime": "11:16:00",
+                "endTime": "11:56:00",
+                "note": ""
+            },
+            {
+                "from": "대진등대",
+                "to": "통일전망대",
+                "lat": 38.515359,
+                "lon": 128.418187,
+                "distance": 3.0,
+                "cumulative": 42.0,
+                "startTime": "12:16:00",
+                "endTime": "12:28:00",
+                "note": "최종 목적지"
+            }
+        ]
+    }
+]
