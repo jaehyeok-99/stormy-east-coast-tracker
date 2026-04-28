@@ -479,10 +479,14 @@ watch(() => props.activeSegment, (action) => {
     if (action.startLat && action.startLon && action.endLat && action.endLon) {
       
       const isMobile = window.innerWidth < 640;
-      const padTopLeft = [80, 80];
+      const rootStyle = getComputedStyle(document.documentElement);
+      const panelVh = parseFloat(rootStyle.getPropertyValue('--panel-height')) || 55;
+      const panelPx = isMobile ? (window.innerHeight * panelVh / 100) : 0;
+      
+      const padTopLeft = isMobile ? [30, 30] : [80, 80];
       const padBottomRight = [
-        isMobile ? 80 : 480, // 데스크탑 우측 400px(패널) + 80px 여유
-        isMobile ? (window.innerHeight * 0.55) + 80 : 80 // 모바일 하단 55vh(패널) + 80px 여유
+        isMobile ? 30 : 480, 
+        isMobile ? panelPx + 30 : 80 
       ];
       
       const dayBorderColors = ['#EF4444', '#F97316', '#22C55E', '#3B82F6', '#A855F7'];
@@ -562,10 +566,14 @@ watch(() => props.activeSegment, (action) => {
           const tempPolyline = L.polyline(segPoints, { opacity: 0 });
           
           const isMobile = window.innerWidth < 640;
-          const padTopLeft = [50, 50];
+          const rootStyle = getComputedStyle(document.documentElement);
+          const panelVh = parseFloat(rootStyle.getPropertyValue('--panel-height')) || 55;
+          const panelPx = isMobile ? (window.innerHeight * panelVh / 100) : 0;
+          
+          const padTopLeft = isMobile ? [30, 30] : [80, 80];
           const padBottomRight = [
-            isMobile ? 50 : 450,
-            isMobile ? (window.innerHeight * 0.55) + 50 : 50
+            isMobile ? 30 : 480,
+            isMobile ? panelPx + 30 : 80
           ];
           
           map.value.fitBounds(tempPolyline.getBounds(), { 
