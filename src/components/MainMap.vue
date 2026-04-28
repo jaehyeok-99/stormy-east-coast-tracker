@@ -36,6 +36,17 @@ onMounted(async () => {
     minZoom: 6 // 너무 축소해서 지구가 보이지 않도록(한국만 보이도록) 제한
   }).setView([37.7645, 128.8996], 8)
   
+  // 줌 레벨에 따라 마커 이름표(라벨) 숨기기/보이기 로직
+  const updateZoomClass = () => {
+    if (map.value.getZoom() < 10) {
+      mapContainer.value.classList.add('zoom-out')
+    } else {
+      mapContainer.value.classList.remove('zoom-out')
+    }
+  }
+  map.value.on('zoomend', updateZoomClass)
+  updateZoomClass()
+  
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap'
@@ -182,7 +193,7 @@ onMounted(async () => {
           className: 'custom-div-icon',
           html: `<div class="flex items-center" style="width: max-content;">
                    <div class="w-4 h-4 ${bgColor} rounded-full border-2 border-white shadow-sm shrink-0"></div>
-                   <div class="bg-white/95 backdrop-blur-md border-2 ${borderColor} ${textColor} font-extrabold px-3 py-1.5 rounded-lg shadow-md whitespace-nowrap text-sm ml-2 flex items-center">
+                   <div class="marker-label bg-white/95 backdrop-blur-md border-2 ${borderColor} ${textColor} font-extrabold px-3 py-1.5 rounded-lg shadow-md whitespace-nowrap text-sm ml-2 flex items-center">
                      ${displayName}
                    </div>
                  </div>`,
@@ -604,8 +615,8 @@ watch(() => props.activeSegment, (action) => {
     <!-- 지도 컨테이너 -->
     <div id="map" ref="mapContainer" class="absolute inset-0 z-0"></div>
     
-    <!-- 인증센터 범례 (Legend) -->
-    <div class="dynamic-bottom absolute left-4 sm:left-8 z-[1000] bg-white/95 backdrop-blur-md px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl shadow-lg border border-gray-200 flex items-center pointer-events-none transition-all duration-75">
+    <!-- 인증센터 범례 (Legend) 모바일 숨김 -->
+    <div class="dynamic-bottom absolute left-4 sm:left-8 z-[1000] bg-white/95 backdrop-blur-md px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl shadow-lg border border-gray-200 hidden sm:flex items-center pointer-events-none transition-all duration-75">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mr-1.5 sm:mr-2 shrink-0">
         <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 11.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
       </svg>
@@ -660,5 +671,16 @@ watch(() => props.activeSegment, (action) => {
   stroke-dasharray: 20 20;
   animation: flow 0.5s linear infinite;
   filter: drop-shadow(0 0 5px rgba(0,0,0,0.4)); /* 너무 부담스럽지 않게 은은한 그림자 */
+}
+
+/* 줌 아웃 시 마커 라벨 숨기기 애니메이션 */
+:deep(.marker-label) {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform-origin: left center;
+}
+.zoom-out :deep(.marker-label) {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8) translateX(-5px);
 }
 </style>
