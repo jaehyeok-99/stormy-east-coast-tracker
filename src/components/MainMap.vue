@@ -34,7 +34,9 @@ onMounted(async () => {
 
   try {
     const fetchAndParseGPX = async (filename) => {
-      const response = await axios.get(`/${filename}`)
+      // vite.config.js의 base 경로(GitHub Pages)를 자동으로 붙여줍니다.
+      const baseUrl = import.meta.env.BASE_URL;
+      const response = await axios.get(`${baseUrl}${filename}`)
       const parser = new DOMParser()
       const gpx = parser.parseFromString(response.data, 'text/xml')
       const pts = Array.from(gpx.getElementsByTagName('trkpt')).map(pt => [
