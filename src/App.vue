@@ -5,15 +5,22 @@ import SidePanel from './components/SidePanel.vue'
 
 // 선택된 일정의 구간 데이터 (시작 거리, 끝 거리)
 const activeSegment = ref(null)
+const ghostLocation = ref({ lat: 37.7518, lon: 128.8760 }) // 기본 강릉
 
 const handleSelectSegment = (segment) => {
   activeSegment.value = segment
+}
+
+const handleGhostMoved = (loc) => {
+  if (loc && loc.lat && loc.lon) {
+    ghostLocation.value = loc
+  }
 }
 </script>
 
 <template>
   <div class="relative w-screen h-screen overflow-hidden bg-gray-50">
-    <MainMap :activeSegment="activeSegment" />
+    <MainMap :activeSegment="activeSegment" @ghost-moved="handleGhostMoved" />
     
     <SidePanel @selectSegment="handleSelectSegment" />
     

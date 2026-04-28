@@ -13,9 +13,64 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['ghost-moved'])
+
 const mapContainer = ref(null)
 const map = ref(null)
 const gpxData = ref([])
+
+// 날씨 데이터 상태
+const ghostWeather = ref(null);
+let lastWeatherFetchTime = 0;
+
+const fetchWeatherForGhost = async (lat, lon) => {
+  const nowTime = Date.now();
+  if (nowTime - lastWeatherFetchTime < 60000) return; // 1분에 한 번만 호출
+  lastWeatherFetchTime = nowTime;
+  
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m&wind_speed_unit=ms&timezone=Asia%2FTokyo`;
+    const res = await axios.get(url);
+    const current = res.data.current;
+    
+    let windType = '측풍';
+    let windIcon = '💨';
+    let windColorClass = 'text-gray-700 bg-gray-100 border-gray-200';
+    const dir = current.wind_direction_10m;
+    
+    if (dir >= 315 || dir <= 45) {
+      windType = '순풍 🚀'; windIcon = '⬇️'; windColorClass = 'text-blue-700 bg-blue-100 border-blue-200';
+    } else if (dir >= 135 && dir <= 225) {
+      windType = '역풍 💀'; windIcon = '⬆️'; windColorClass = 'text-red-700 bg-red-100 border-red-200';
+    } else if (dir > 45 && dir < 135) {
+      windType = '바다바람 🌊'; windIcon = '⬅️'; windColorClass = 'text-teal-700 bg-teal-100 border-teal-200';
+    } else {
+      windType = '육지바람 🌲'; windIcon = '➡️'; windColorClass = 'text-green-700 bg-green-100 border-green-200';
+    }
+
+    const code = current.weather_code;
+    let weatherEmoji = '☀️'; let weatherDesc = '맑음';
+    if (code === 1 || code === 2) { weatherEmoji = '⛅'; weatherDesc = '구름조금'; }
+    else if (code === 3) { weatherEmoji = '☁️'; weatherDesc = '흐림'; }
+    else if (code >= 45 && code <= 48) { weatherEmoji = '🌫️'; weatherDesc = '안개'; }
+    else if (code >= 51 && code <= 67) { weatherEmoji = '🌧️'; weatherDesc = '비'; }
+    else if (code >= 71 && code <= 77) { weatherEmoji = '❄️'; weatherDesc = '눈'; }
+    else if (code >= 80 && code <= 82) { weatherEmoji = '🌦️'; weatherDesc = '소나기'; }
+    else if (code >= 95) { weatherEmoji = '⛈️'; weatherDesc = '뇌우'; }
+
+    ghostWeather.value = {
+      temp: current.temperature_2m,
+      speed: current.wind_speed_10m.toFixed(1),
+      type: windType,
+      icon: windIcon,
+      colorClass: windColorClass,
+      emoji: weatherEmoji,
+      desc: weatherDesc
+    };
+  } catch (e) {
+    console.error('날씨 데이터 로드 실패', e);
+  }
+};
 
 let basePolyline = null
 let highlightPolyline = null
@@ -319,20 +374,57 @@ onMounted(async () => {
           targetLon = lastItem.lon;
         }
 
-        // 고스트 아이콘 생성 (이동 중일 땐 위아래로 바운스, 정지해 있을 땐 가만히)
+        // 날씨 데이터가 있으면 말풍선 HTML 생성
+        let weatherHtml = '';
+        if (ghostWeather.value) {
+          weatherHtml = `
+            <div class="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md px-3 py-2 rounded-xl shadow-lg border border-purple-200 flex flex-col gap-1 w-max pointer-events-auto">
+              <!-- 꼬리표 -->
+              <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/95 border-b border-r border-purple-200 transform rotate-45"></div>
+              
+              <div class="flex items-center justify-between gap-3 border-b border-gray-100 pb-1">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-lg">${ghostWeather.value.emoji}</span>
+                  <span class="text-xs font-bold text-gray-700">${ghostWeather.value.desc}</span>
+                </div>
+                <div class="text-sm font-black text-gray-900">
+                  ${ghostWeather.value.temp}<span class="text-[10px] text-gray-500 ml-0.5">°C</span>
+                </div>
+              </div>
+              
+              <div class="flex items-center justify-between gap-3 pt-0.5">
+                <div class="flex flex-col">
+                  <span class="text-[9px] text-gray-400 font-bold uppercase">풍속(m/s)</span>
+                  <div class="text-xs font-black text-gray-800 leading-none mt-0.5">${ghostWeather.value.speed}</div>
+                </div>
+                <div class="px-1.5 py-0.5 rounded font-bold text-[10px] border flex items-center gap-1 ${ghostWeather.value.colorClass}">
+                  <span>${ghostWeather.value.icon}</span>
+                  <span>${ghostWeather.value.type}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // 고스트(사진 프로필) 마커 생성 (이동 중일 땐 위아래로 바운스, 정지해 있을 땐 가만히)
+        const baseUrl = import.meta.env.BASE_URL;
         const ghostIcon = L.divIcon({
           className: 'custom-div-icon',
-          html: `<div class="relative w-12 h-12 flex items-center justify-center pointer-events-none">
-                   <div class="absolute inset-0 bg-purple-500/30 rounded-full animate-ping"></div>
-                   <div class="relative bg-white/95 backdrop-blur-md p-2 rounded-full border-2 border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.5)] z-20 ${isMoving ? 'animate-bounce' : ''}">
-                     <span class="text-xl drop-shadow-sm">👻</span>
+          html: `<div class="relative w-14 h-14 flex items-center justify-center pointer-events-none">
+                   ${weatherHtml}
+                   <!-- 맥박 뛰는 듯한 배경 효과 -->
+                   <div class="absolute inset-0 bg-blue-500/40 rounded-full animate-ping"></div>
+                   <!-- 사진 프로필 -->
+                   <div class="relative bg-white p-0.5 rounded-full border-[3px] border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] z-20 overflow-hidden ${isMoving ? 'animate-bounce' : ''}">
+                     <img src="${baseUrl}avatar.png" alt="라이더" class="w-11 h-11 rounded-full object-cover" style="object-position: top;">
                    </div>
-                   <div class="absolute top-[46px] whitespace-nowrap bg-purple-600 text-white text-[11px] font-bold px-2 py-0.5 rounded shadow-md z-30 opacity-90 tracking-tight">
+                   <!-- 라벨 -->
+                   <div class="absolute top-[58px] whitespace-nowrap bg-blue-600 text-white text-[11px] font-bold px-2 py-0.5 rounded-md shadow-md z-30 opacity-90 tracking-tight">
                      예상 현재 위치
                    </div>
                  </div>`,
-          iconSize: [48, 48],
-          iconAnchor: [24, 24]
+          iconSize: [56, 56],
+          iconAnchor: [28, 28]
         });
 
         if (ghostMarker) {
@@ -341,6 +433,12 @@ onMounted(async () => {
         } else {
           ghostMarker = L.marker([targetLat, targetLon], { icon: ghostIcon, zIndexOffset: 2000 }).addTo(map.value);
         }
+        
+        // 날씨 백그라운드 갱신
+        fetchWeatherForGhost(targetLat, targetLon);
+        
+        // 날씨 위젯을 위해 부모 컴포넌트로 현재 가상 라이더의 좌표 전달
+        emit('ghost-moved', { lat: targetLat, lon: targetLon });
       };
 
       // 렌더링 즉시 한 번 계산하고, 이후 5초마다 위치 갱신
