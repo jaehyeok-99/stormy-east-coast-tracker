@@ -120,7 +120,7 @@ const dayTheme = [
     <div class="px-5 pb-5 sm:p-6 sticky top-[30px] sm:top-0 bg-white/95 backdrop-blur-md z-20 border-b border-gray-200 shadow-sm flex flex-col gap-4">
       <div>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">종주 계획표</h2>
-        <p class="text-sm sm:text-base font-semibold text-gray-600 mt-1 sm:mt-2">4박 5일 코스 (총 약 410km)</p>
+        <p class="text-sm sm:text-base font-semibold text-gray-600 mt-1 sm:mt-2">4박 5일 코스</p>
       </div>
       
       <!-- 메인 탭 메뉴 (계획표/맛집) -->
