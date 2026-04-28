@@ -22,9 +22,18 @@ let highlightPolyline = null
 let endMarker = null
 
 onMounted(async () => {
+  // 대한민국 영역 제한 (남서쪽, 북동쪽 좌표)
+  const koreaBounds = L.latLngBounds(
+    [33.0, 124.0], // 마라도 부근 남서쪽 끝
+    [39.0, 132.0]  // 강원도 북단 북동쪽 끝
+  );
+
   // 원래 100% 잘 작동했던 오픈소스 Leaflet 지도로 복구! + 확대/축소 컨트롤 숨김
   map.value = L.map(mapContainer.value, {
-    zoomControl: false
+    zoomControl: false,
+    maxBounds: koreaBounds, // 이 영역 밖으로 화면을 드래그하지 못하도록 제한
+    maxBoundsViscosity: 1.0, // 고무줄처럼 튕기지 않고 단단하게 벽을 형성
+    minZoom: 6 // 너무 축소해서 지구가 보이지 않도록(한국만 보이도록) 제한
   }).setView([37.7645, 128.8996], 8)
   
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
